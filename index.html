@@ -30,11 +30,10 @@ body {
   overflow-x: hidden;
 }
 
-
 /* ── HERO PHOTO ── */
 .hero-photo-wrap {
   position: absolute;
-  right: 200px;
+  right: 210px;
   top: 50%;
   transform: translateY(-50%);
   z-index: 0;
@@ -79,6 +78,12 @@ nav {
   color: var(--amber);
 }
 
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
 .nav-links { display: flex; gap: 32px; list-style: none; }
 .nav-links a {
   font-family: 'JetBrains Mono', monospace;
@@ -90,6 +95,28 @@ nav {
   transition: color 0.2s;
 }
 .nav-links a:hover { color: var(--amber); }
+
+/* Language Switcher */
+.lang-switch {
+  display: flex;
+  gap: 8px;
+  border-left: 1px solid var(--faint);
+  padding-left: 20px;
+}
+.lang-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  cursor: pointer;
+  transition: color 0.2s;
+  text-transform: uppercase;
+}
+.lang-btn.active {
+  color: var(--amber);
+  font-weight: 600;
+}
 
 /* ── HERO ── */
 #hero {
@@ -118,14 +145,6 @@ nav {
   text-transform: uppercase;
   color: var(--amber);
 }
-.live-dot {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: var(--teal);
-  box-shadow: 0 0 10px var(--teal);
-  animation: pulse 2s ease infinite;
-}
-@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.6)} }
 
 h1 {
   font-family: 'Bebas Neue', sans-serif;
@@ -281,25 +300,6 @@ h2 {
   letter-spacing: 0.1em;
   color: var(--amber);
   text-transform: uppercase;
-}
-.tl-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.55rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--teal);
-  width: fit-content;
-}
-.tl-badge::before {
-  content:'';
-  width:6px;height:6px;
-  border-radius:50%;
-  background:var(--teal);
-  box-shadow:0 0 8px var(--teal);
-  animation: pulse 2s ease infinite;
 }
 
 .tl-role {
@@ -565,34 +565,10 @@ footer {
   nav{padding:0 20px}
   .nav-links{display:none}
   #hero{padding:100px 20px 60px}
-  
-  /* Mobilde taşan başlığı küçültme ve yazıları hizalama */
-  h1 {
-    font-size: clamp(3.5rem, 15vw, 5rem);
-    margin-bottom: 24px;
-  }
-  .hero-bottom {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
-  }
-  
-  /* Fotoğrafın mobilde ortalı ve düzgün görünmesi */
-  .hero-photo-wrap {
-    position: relative;
-    right: auto;
-    top: auto;
-    transform: none;
-    margin-top: 40px;
-    display: flex;
-    justify-content: center;
-  }
-  .hero-photo {
-    width: 100%;
-    max-width: 250px;
-    height: auto;
-  }
-
+  h1 { font-size: clamp(3.5rem, 15vw, 5rem); margin-bottom: 24px; }
+  .hero-bottom { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .hero-photo-wrap { position: relative; right: auto; top: auto; transform: none; margin-top: 40px; display: flex; justify-content: center; }
+  .hero-photo { width: 100%; max-width: 250px; height: auto; }
   .stats-strip{display:none}
   section.blk{padding:64px 20px}
   .tl-row{grid-template-columns:1fr}
@@ -605,23 +581,27 @@ footer {
 
 <canvas id="bgCanvas"></canvas>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo"></div>
-  <ul class="nav-links">
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#education">Education</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#experience" data-en="Experience" data-tr="Deneyim">Experience</a></li>
+      <li><a href="#projects" data-en="Projects" data-tr="Projeler">Projects</a></li>
+      <li><a href="#skills" data-en="Skills" data-tr="Yetenekler">Skills</a></li>
+      <li><a href="#education" data-en="Education" data-tr="Eğitim">Education</a></li>
+      <li><a href="#contact" data-en="Contact" data-tr="İletişim">Contact</a></li>
+    </ul>
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="switchLang('en')">EN</button>
+      <button class="lang-btn" onclick="switchLang('tr')">TR</button>
+    </div>
+  </div>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
   <div class="hero-eyebrow">
     <div class="hero-eyebrow-bar"></div>
-    <span>Available for opportunities</span>
+    <span data-en="Available for opportunities" data-tr="Fırsatlara Açık">Available for opportunities</span>
   </div>
 
   <h1>
@@ -631,12 +611,14 @@ footer {
   </h1>
 
   <div class="hero-bottom">
-    <p class="hero-desc">
+    <p class="hero-desc" 
+       data-en="Building intelligent systems at the intersection of computer vision, NLP, and autonomous AI. Currently contributing to computer vision tasks at <strong>BAYKAR</strong> — previously with <strong>T.C. Presidency Digital Transformation Office</strong>."
+       data-tr="Bilgisayarlı görü, NLP ve otonom yapay zekanın kesişim noktasında akıllı sistemler geliştiriyorum. Şu anda <strong>BAYKAR</strong> bünyesinde bilgisayarlı görü görevlerine katkıda bulunuyorum — daha önce <strong>T.C. Cumhurbaşkanlığı Dijital Dönüşüm Ofisi</strong>'ndeydim.">
       Building intelligent systems at the intersection of computer vision, NLP, and autonomous AI. Currently contributing to computer vision tasks at <strong>BAYKAR</strong> — previously with <strong>T.C. Presidency Digital Transformation Office</strong>.
     </p>
     <div class="hero-actions">
-      <a href="#contact" class="btn btn-amber">Get in Touch</a>
-      <a href="#projects" class="btn btn-ghost">View Projects</a>
+      <a href="#contact" class="btn btn-amber" data-en="Get in Touch" data-tr="İletişime Geç">Get in Touch</a>
+      <a href="#projects" class="btn btn-ghost" data-en="View Projects" data-tr="Projeleri Gör">View Projects</a>
     </div>
   </div>
 
@@ -646,86 +628,88 @@ footer {
   <div class="stats-strip">
     <div class="stat-item">
       <span class="stat-n">3</span>
-      <span class="stat-l">Internships</span>
+      <span class="stat-l" data-en="Internships" data-tr="Stajlar">Internships</span>
     </div>
     <div class="stat-item">
       <span class="stat-n">6</span>
-      <span class="stat-l">Selected AI Projects</span>
+      <span class="stat-l" data-en="Selected AI Projects" data-tr="Seçilmiş AI Projeleri">Selected AI Projects</span>
     </div>
     <div class="stat-item">
       <span class="stat-n">B.Sc</span>
-      <span class="stat-l">AI Engineering</span>
+      <span class="stat-l" data-en="AI Engineering" data-tr="Yapay Zeka Müh.">AI Engineering</span>
     </div>
   </div>
 </section>
 
-<!-- EXPERIENCE -->
 <section id="experience" class="blk alt">
   <div class="sec-header reveal">
     <span class="sec-tag">01</span>
     <div class="sec-line"></div>
-    <h2>Experience</h2>
+    <h2 data-en="Experience" data-tr="Deneyim">Experience</h2>
   </div>
 
   <div class="tl">
     <div class="tl-row">
       <div class="tl-meta">
-        <div class="tl-date">Feb 2026 — Present</div>
+        <div class="tl-date" data-en="Feb 2026 — Present" data-tr="Şub 2026 — Günümüz">Feb 2026 — Present</div>
       </div>
       <div>
-        <div class="tl-role">AI Intern</div>
+        <div class="tl-role" data-en="AI Intern" data-tr="Yapay Zeka Stajyeri">AI Intern</div>
         <div class="tl-co"><span>BAYKAR</span> · İstanbul, Turkey</div>
         <ul class="tl-pts">
-          <li>Working on computer vision tasks</li>
+          <li data-en="Working on computer vision tasks" data-tr="Bilgisayarlı görü görevleri üzerine çalışma">Working on computer vision tasks</li>
         </ul>
       </div>
     </div>
 
     <div class="tl-row">
       <div class="tl-meta">
-        <div class="tl-date">Aug — Sep 2025</div>
+        <div class="tl-date" data-en="Aug — Sep 2025" data-tr="Ağu — Eyl 2025">Aug — Sep 2025</div>
       </div>
       <div>
-        <div class="tl-role">AI Intern</div>
+        <div class="tl-role" data-en="AI Intern" data-tr="Yapay Zeka Stajyeri">AI Intern</div>
         <div class="tl-co"><span>E-Kalite Software (TURBOARD)</span> · Ankara, Turkey</div>
         <ul class="tl-pts">
-          <li>Developed time series, classification, and regression models to predict factory accidents</li>
-          <li>Applied prompt engineering techniques to optimize large language model performance</li>
-          <li>Explored agentic AI workflows for autonomous task execution and decision-making</li>
+          <li data-en="Developed time series, classification, and regression models to predict factory accidents" data-tr="Fabrika kazalarını tahmin etmek için zaman serisi, sınıflandırma ve regresyon modelleri geliştirildi">Developed time series, classification, and regression models to predict factory accidents</li>
+          <li data-en="Applied prompt engineering techniques to optimize large language model performance" data-tr="Büyük dil modellerinin performansını optimize etmek için istem mühendisliği teknikleri uygulandı">Applied prompt engineering techniques to optimize large language model performance</li>
+          <li data-en="Explored agentic AI workflows for autonomous task execution and decision-making" data-tr="Otonom görev yürütme ve karar verme için ajan tabanlı yapay zeka iş akışları araştırıldı">Explored agentic AI workflows for autonomous task execution and decision-making</li>
         </ul>
       </div>
     </div>
 
     <div class="tl-row">
       <div class="tl-meta">
-        <div class="tl-date">Aug — Sep 2024</div>
+        <div class="tl-date" data-en="Aug — Sep 2024" data-tr="Ağu — Eyl 2024">Aug — Sep 2024</div>
       </div>
       <div>
-        <div class="tl-role">AI Intern</div>
+        <div class="tl-role" data-en="AI Intern" data-tr="Yapay Zeka Stajyeri">AI Intern</div>
         <div class="tl-co"><span>T.C. Presidency Digital Transformation Office</span> · Ankara, Turkey</div>
         <ul class="tl-pts">
-          <li>Analyzed large datasets using Pandas and NumPy to extract actionable insights</li>
-          <li>Built deep learning models using SAM2 and PyTorch</li>
-          <li>Developed SAM2-based tree damage detection model with aerial image segmentation</li>
+          <li data-en="Analyzed large datasets using Pandas and NumPy to extract actionable insights" data-tr="Uygulanabilir içgörüler elde etmek için Pandas ve NumPy kullanarak büyük veri setleri analiz edildi">Analyzed large datasets using Pandas and NumPy to extract actionable insights</li>
+          <li data-en="Built deep learning models using SAM2 and PyTorch" data-tr="SAM2 ve PyTorch kullanarak derin öğrenme modelleri inşa edildi">Built deep learning models using SAM2 and PyTorch</li>
+          <li data-en="Developed SAM2-based tree damage detection model with aerial image segmentation" data-tr="Hava görüntüsü segmentasyonu ile SAM2 tabanlı ağaç hasar tespit modeli geliştirildi">Developed SAM2-based tree damage detection model with aerial image segmentation</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PROJECTS -->
 <section id="projects" class="blk">
   <div class="sec-header reveal">
     <span class="sec-tag">02</span>
     <div class="sec-line"></div>
-    <h2>Projects</h2>
+    <h2 data-en="Projects" data-tr="Projeler">Projects</h2>
   </div>
 
   <div class="proj-grid">
     <div class="proj-card">
       <div class="proj-num">PROJECT / 01</div>
-      <div class="proj-title">Autonomous Drone Object Tracking</div>
-      <div class="proj-desc">Tested YOLO and EfficientDet models for real-time object detection on Raspberry Pi-based drone. Implemented autonomous flight and object tracking in Gazebo simulation with hardware-software integration.</div>
+      <div class="proj-title" data-en="Autonomous Drone Object Tracking" data-tr="Otonom Drone Nesne Takibi">Autonomous Drone Object Tracking</div>
+      <div class="proj-desc" 
+           data-en="Tested YOLO and EfficientDet models for real-time object detection on Raspberry Pi-based drone. Implemented autonomous flight and object tracking in Gazebo simulation with hardware-software integration."
+           data-tr="Raspberry Pi tabanlı drone üzerinde gerçek zamanlı nesne tespiti için YOLO ve EfficientDet modelleri test edildi. Donanım-yazılım entegrasyonu ile Gazebo simülasyonunda otonom uçuş ve nesne takibi uygulandı.">
+           Tested YOLO and EfficientDet models for real-time object detection on Raspberry Pi-based drone. Implemented autonomous flight and object tracking in Gazebo simulation with hardware-software integration.
+      </div>
       <div class="proj-tags">
         <span class="tag">Python</span><span class="tag">YOLO</span><span class="tag">Raspberry Pi</span><span class="tag">Gazebo</span><span class="tag">ROS</span>
       </div>
@@ -743,8 +727,12 @@ footer {
 
     <div class="proj-card">
       <div class="proj-num">PROJECT / 02</div>
-      <div class="proj-title">Tree Damage Detection & Segmentation</div>
-      <div class="proj-desc">Fine-tuned SAM2 segmentation model for automated tree health detection in high-resolution aerial imagery. Created assessment tool classifying trees as healthy or damaged for forest management.</div>
+      <div class="proj-title" data-en="Tree Damage Detection & Segmentation" data-tr="Ağaç Hasar Tespiti ve Segmentasyonu">Tree Damage Detection & Segmentation</div>
+      <div class="proj-desc" 
+           data-en="Fine-tuned SAM2 segmentation model for automated tree health detection in high-resolution aerial imagery. Created assessment tool classifying trees as healthy or damaged for forest management."
+           data-tr="Yüksek çözünürlüklü hava görüntülerinde otomatik ağaç sağlığı tespiti için SAM2 segmentasyon modeli fine-tune edildi. Orman yönetimi için ağaçları sağlıklı veya hasarlı olarak sınıflandıran değerlendirme aracı oluşturuldu.">
+           Fine-tuned SAM2 segmentation model for automated tree health detection in high-resolution aerial imagery. Created assessment tool classifying trees as healthy or damaged for forest management.
+      </div>
       <div class="proj-tags">
         <span class="tag">SAM2</span><span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">Aerial Imagery</span>
       </div>
@@ -758,8 +746,12 @@ footer {
 
     <div class="proj-card">
       <div class="proj-num">PROJECT / 03</div>
-      <div class="proj-title">Solar Energy Potential Estimation</div>
-      <div class="proj-desc">Machine learning workflow for calculating residential solar potential via SegFormer-based roof segmentation from satellite images, combining surface area, panel efficiency, and solar irradiation data.</div>
+      <div class="proj-title" data-en="Solar Energy Potential Estimation" data-tr="Güneş Enerjisi Potansiyeli Tahmini">Solar Energy Potential Estimation</div>
+      <div class="proj-desc" 
+           data-en="Machine learning workflow for calculating residential solar potential via SegFormer-based roof segmentation from satellite images, combining surface area, panel efficiency, and solar irradiation data."
+           data-tr="Uydu görüntülerinden SegFormer tabanlı çatı segmentasyonu yoluyla konut güneş potansiyelini hesaplayan; yüzey alanı, panel verimliliği ve güneş radyasyonu verilerini birleştiren makine öğrenmesi iş akışı.">
+           Machine learning workflow for calculating residential solar potential via SegFormer-based roof segmentation from satellite images, combining surface area, panel efficiency, and solar irradiation data.
+      </div>
       <div class="proj-tags">
         <span class="tag">SegFormer</span><span class="tag">PyTorch</span><span class="tag">Python</span><span class="tag">Satellite Imagery</span>
       </div>
@@ -773,67 +765,61 @@ footer {
 
     <div class="proj-card">
       <div class="proj-num">PROJECT / 04</div>
-      <div class="proj-title">Transformer NLP Models</div>
-      <div class="proj-desc">Fine-tuned BERT-based models for text classification, title generation, and article writing. Preprocessed with NLTK; evaluated with accuracy and F1-score metrics using Hugging Face Transformers.</div>
+      <div class="proj-title" data-en="Transformer NLP Models" data-tr="Transformer NLP Modelleri">Transformer NLP Models</div>
+      <div class="proj-desc" 
+           data-en="Fine-tuned BERT-based models for text classification, title generation, and article writing. Preprocessed with NLTK; evaluated with accuracy and F1-score metrics using Hugging Face Transformers."
+           data-tr="Metin sınıflandırma, başlık oluşturma ve makale yazımı için BERT tabanlı modeller fine-tune edildi. NLTK ile ön işleme yapıldı; Hugging Face Transformers kullanılarak doğruluk ve F1-skoru metrikleri ile değerlendirildi.">
+           Fine-tuned BERT-based models for text classification, title generation, and article writing. Preprocessed with NLTK; evaluated with accuracy and F1-score metrics using Hugging Face Transformers.
+      </div>
       <div class="proj-tags">
         <span class="tag">BERT</span><span class="tag">HuggingFace</span><span class="tag">PyTorch</span><span class="tag">NLTK</span>
       </div>
-      <div class="proj-links">
+ <div class="proj-links">
         <a href="https://github.com/HMeteCelik/Natural-Language-Processing" target="_blank" class="proj-link">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
           GitHub
         </a>
       </div>
     </div>
-  </div>
-<div class="proj-grid">
-  <div class="proj-card">
-    <div class="proj-num">PROJECT / 05</div>
-    <div class="proj-title">Document Intelligence Pipeline for PII Detection</div>
-    <div class="proj-desc">
-      Developed an end-to-end system to extract PII from document images using computer vision and NLP techniques. 
-      Applied image preprocessing and perspective correction to improve accuracy, utilizing <b>docTR</b> for high-performance OCR]. 
-      Fine-tuned a BERT-based NER model on domain-specific data and designed a hybrid detection pipeline combining regex-based pattern matching with transformer-based contextual recognition].
-    </div>
-    <div class="proj-tags">
-      <span class="tag">Python</span>
-      <span class="tag">OpenCV</span>
-      <span class="tag">docTR</span>
-      <span class="tag">BERT</span>
-      <span class="tag">NER</span>
-    </div>
-  </div>
 
-  <div class="proj-card">
-    <div class="proj-num">PROJECT / 06</div>
-    <div class="proj-title">Image Captioning with BLIP + CLIP</div>
-    <div class="proj-desc">
-      Built an image captioning system using BLIP to generate natural language descriptions from images. 
-      Leveraged CLIP embeddings to validate and improve semantic alignment between images and generated captions. 
-      Implemented zero-shot and fine-tuned models, evaluating performance through BLEU, METEOR, and CLIP score metrics.
+    <div class="proj-card">
+      <div class="proj-num">PROJECT / 05</div>
+      <div class="proj-title" data-en="Document Intelligence Pipeline for PII Detection" data-tr="KVKK Tespiti için Doküman Zekası Hattı">Document Intelligence Pipeline for PII Detection</div>
+      <div class="proj-desc" 
+           data-en="Developed an end-to-end system to extract PII from document images using computer vision and NLP techniques. Applied image preprocessing and perspective correction to improve accuracy, utilizing <b>docTR</b> for high-performance OCR. Fine-tuned a BERT-based NER model on domain-specific data and designed a hybrid detection pipeline combining regex-based pattern matching with transformer-based contextual recognition."
+           data-tr="Bilgisayarlı görü ve NLP tekniklerini kullanarak doküman görüntülerinden kişisel verileri (PII) çıkaran uçtan uca bir sistem geliştirildi. Doğruluğu artırmak için görüntü ön işleme ve perspektif düzeltme uygulandı, yüksek performanslı OCR için <b>docTR</b> kullanıldı. Alan özgü verilerle BERT tabanlı bir NER modeli fine-tune edildi ve regex tabanlı desen eşleştirme ile transformer tabanlı bağlamsal tanımayı birleştiren hibrit bir tespit hattı tasarlandı.">
+           Developed an end-to-end system to extract PII from document images using computer vision and NLP techniques. Applied image preprocessing and perspective correction to improve accuracy, utilizing <b>docTR</b> for high-performance OCR. Fine-tuned a BERT-based NER model on domain-specific data and designed a hybrid detection pipeline combining regex-based pattern matching with transformer-based contextual recognition.
+      </div>
+      <div class="proj-tags">
+        <span class="tag">Python</span><span class="tag">OpenCV</span><span class="tag">docTR</span><span class="tag">BERT</span><span class="tag">NER</span>
+      </div>
     </div>
-    <div class="proj-tags">
-      <span class="tag">Python</span>
-      <span class="tag">PyTorch</span>
-      <span class="tag">BLIP</span>
-      <span class="tag">CLIP</span>
-      <span class="tag">Transformers</span>
+
+    <div class="proj-card">
+      <div class="proj-num">PROJECT / 06</div>
+      <div class="proj-title" data-en="Image Captioning with BLIP + CLIP" data-tr="BLIP + CLIP ile Resim Betimleme">Image Captioning with BLIP + CLIP</div>
+      <div class="proj-desc" 
+           data-en="Built an image captioning system using BLIP to generate natural language descriptions from images. Leveraged CLIP embeddings to validate and improve semantic alignment between images and generated captions. Implemented zero-shot and fine-tuned models, evaluating performance through BLEU, METEOR, and CLIP score metrics."
+           data-tr="Görüntülerden doğal dil açıklamaları oluşturmak için BLIP kullanan bir resim altyazılama sistemi oluşturuldu. Görüntüler ve oluşturulan altyazılar arasındaki anlamsal uyumu doğrulamak ve iyileştirmek için CLIP gömmeleri kullanıldı. Zero-shot ve fine-tune edilmiş modeller uygulandı; performans BLEU, METEOR ve CLIP skoru metrikleri ile değerlendirildi.">
+           Built an image captioning system using BLIP to generate natural language descriptions from images. Leveraged CLIP embeddings to validate and improve semantic alignment between images and generated captions. Implemented zero-shot and fine-tuned models, evaluating performance through BLEU, METEOR, and CLIP score metrics.
+      </div>
+      <div class="proj-tags">
+        <span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">BLIP</span><span class="tag">CLIP</span><span class="tag">Transformers</span>
+      </div>
     </div>
   </div>
-</div>
 </section>
 
-<!-- SKILLS -->
 <section id="skills" class="blk alt">
   <div class="sec-header reveal">
     <span class="sec-tag">03</span>
     <div class="sec-line"></div>
-    <h2>Skills</h2>
+    <h2 data-en="Skills" data-tr="Yetenekler">Skills</h2>
   </div>
 
   <div class="skills-wrap">
     <div class="reveal">
-      <div class="sk-group-title">AI / ML Frameworks</div>
+      <div class="sk-group-title" data-en="AI / ML Frameworks" data-tr="AI / ML Araçları">AI / ML Frameworks</div>
       <ul class="sk-list">
         <li class="sk-item"><span class="sk-name">PyTorch</span><div class="sk-bar-track"><div class="sk-bar" data-w="92"></div></div></li>
         <li class="sk-item"><span class="sk-name">TensorFlow</span><div class="sk-bar-track"><div class="sk-bar" data-w="80"></div></div></li>
@@ -844,7 +830,7 @@ footer {
     </div>
 
     <div class="reveal">
-      <div class="sk-group-title">Programming & Data</div>
+      <div class="sk-group-title" data-en="Programming & Data" data-tr="Programlama & Veri">Programming & Data</div>
       <ul class="sk-list">
         <li class="sk-item"><span class="sk-name">Python</span><div class="sk-bar-track"><div class="sk-bar" data-w="95"></div></div></li>
         <li class="sk-item"><span class="sk-name">C++</span><div class="sk-bar-track"><div class="sk-bar" data-w="70"></div></div></li>
@@ -855,32 +841,32 @@ footer {
     </div>
 
     <div class="reveal">
-      <div class="sk-group-title">Specializations</div>
+      <div class="sk-group-title" data-en="Specializations" data-tr="Uzmanlık Alanları">Specializations</div>
       <div class="spec-wrap">
-        <span class="tag">Computer Vision</span>
+        <span class="tag" data-en="Computer Vision" data-tr="Bilgisayarlı Görü">Computer Vision</span>
         <span class="tag">NLP</span>
-        <span class="tag">Robotics / ROS</span>
-        <span class="tag">Deep Learning</span>
-        <span class="tag">Machine Learning</span>
+        <span class="tag" data-en="Robotics / ROS" data-tr="Robotik / ROS">Robotics / ROS</span>
+        <span class="tag" data-en="Deep Learning" data-tr="Derin Öğrenme">Deep Learning</span>
+        <span class="tag" data-en="Machine Learning" data-tr="Makine Öğrenmesi">Machine Learning</span>
       </div>
     </div>
 
     <div class="reveal">
-      <div class="sk-group-title">Languages</div>
+      <div class="sk-group-title" data-en="Languages" data-tr="Diller">Languages</div>
       <div class="lang-list">
         <div class="lang-row">
-          <span class="lang-nm">Turkish</span>
-          <span class="lang-lv">C2 · Native</span>
+          <span class="lang-nm" data-en="Turkish" data-tr="Türkçe">Turkish</span>
+          <span class="lang-lv" data-en="C2 · Native" data-tr="C2 · Anadil">C2 · Native</span>
           <div class="lang-track"><div class="lang-fill" data-w="100"></div></div>
         </div>
         <div class="lang-row">
-          <span class="lang-nm">English</span>
-          <span class="lang-lv">B2 · Upper Int.</span>
+          <span class="lang-nm" data-en="English" data-tr="İngilizce">English</span>
+          <span class="lang-lv" data-en="B2 · Upper Int." data-tr="B2 · İleri Seviye">B2 · Upper Int.</span>
           <div class="lang-track"><div class="lang-fill" data-w="68"></div></div>
         </div>
         <div class="lang-row">
-          <span class="lang-nm">German</span>
-          <span class="lang-lv">A2 · Beginner</span>
+          <span class="lang-nm" data-en="German" data-tr="Almanca">German</span>
+          <span class="lang-lv" data-en="A2 · Beginner" data-tr="A2 · Başlangıç">A2 · Beginner</span>
           <div class="lang-track"><div class="lang-fill" data-w="28"></div></div>
         </div>
       </div>
@@ -888,37 +874,41 @@ footer {
   </div>
 </section>
 
-<!-- EDUCATION -->
 <section id="education" class="blk">
   <div class="sec-header reveal">
     <span class="sec-tag">04</span>
     <div class="sec-line"></div>
-    <h2>Education</h2>
+    <h2 data-en="Education" data-tr="Eğitim">Education</h2>
   </div>
 
   <div class="edu-grid">
     <div class="edu-card">
-      <div class="edu-yr">2021 — February 2026</div>
-      <div class="edu-deg">B.Sc. Artificial Intelligence Engineering</div>
-      <div class="edu-school">Hacettepe University · Ankara, Turkey</div>
-      <span class="edu-gpa">GPA: 2.98 / 4.00</span>
+      <div class="edu-yr" data-en="2021 — February 2026" data-tr="2021 — Şubat 2026">2021 — February 2026</div>
+      <div class="edu-deg" data-en="B.Sc. Artificial Intelligence Engineering" data-tr="Yapay Zeka Mühendisliği Lisans">B.Sc. Artificial Intelligence Engineering</div>
+      <div class="edu-school" data-en="Hacettepe University · Ankara, Turkey" data-tr="Hacettepe Üniversitesi · Ankara, Türkiye">Hacettepe University · Ankara, Turkey</div>
+      <span class="edu-gpa" data-en="GPA: 2.98 / 4.00" data-tr="GNO: 2.98 / 4.00">GPA: 2.98 / 4.00</span>
       <div class="edu-course">
-        <span class="tag">Machine Learning</span><span class="tag">Deep Learning</span><span class="tag">NLP</span>
-        <span class="tag">Computer Vision</span><span class="tag">Robotics</span><span class="tag">Data Mining</span>
-        <span class="tag">Bioinformatics</span><span class="tag">Algorithms</span>
+        <span class="tag" data-en="Machine Learning" data-tr="Makine Öğrenmesi">Machine Learning</span>
+        <span class="tag" data-en="Deep Learning" data-tr="Derin Öğrenme">Deep Learning</span>
+        <span class="tag">NLP</span>
+        <span class="tag" data-en="Computer Vision" data-tr="Bilgisayarlı Görü">Computer Vision</span>
+        <span class="tag" data-en="Robotics" data-tr="Robotik">Robotics</span>
+        <span class="tag" data-en="Data Mining" data-tr="Veri Madenciliği">Data Mining</span>
+        <span class="tag">Bioinformatics</span>
+        <span class="tag" data-en="Algorithms" data-tr="Algoritmalar">Algorithms</span>
       </div>
     </div>
 
     <div class="edu-card">
       <div class="edu-yr">2016 — 2020</div>
-      <div class="edu-deg">High School Diploma</div>
-      <div class="edu-school">Adana Science High School · Adana, Turkey</div>
-      <span class="edu-gpa">GPA: 96.22 / 100</span>
+      <div class="edu-deg" data-en="High School Diploma" data-tr="Lise Diploması">High School Diploma</div>
+      <div class="edu-school" data-en="Adana Science High School · Adana, Turkey" data-tr="Adana Fen Lisesi · Adana, Türkiye">Adana Science High School · Adana, Turkey</div>
+      <span class="edu-gpa" data-en="GPA: 96.22 / 100" data-tr="Ortalama: 96.22 / 100">GPA: 96.22 / 100</span>
       <div class="edu-sep"></div>
-      <div class="edu-cert-title">Certificates</div>
+      <div class="edu-cert-title" data-en="Certificates" data-tr="Sertifikalar">Certificates</div>
       <div class="edu-cert-item">
         🌍 Erasmus+ Digital Entrepreneurship Awareness
-        <span>Alicante, Spain · 2024</span>
+        <span data-en="Alicante, Spain · 2024" data-tr="Alicante, İspanya · 2024">Alicante, Spain · 2024</span>
       </div>
       <div class="edu-cert-item">
         🤖 Global AI Hub — Aygaz AI Literacy Bootcamp
@@ -927,35 +917,24 @@ footer {
   </div>
 </section>
 
-<!-- CONTACT -->
 <section id="contact" class="blk alt">
   <div class="sec-header reveal">
     <span class="sec-tag">05</span>
     <div class="sec-line"></div>
-    <h2>Contact</h2>
+    <h2 data-en="Contact" data-tr="İletişim">Contact</h2>
   </div>
 
   <div class="contact-wrap reveal">
-    <p class="contact-sub">
+    <p class="contact-sub" 
+       data-en="Open to full-time roles, research collaborations, and exciting AI engineering challenges. Currently based in Turkey, open to relocation."
+       data-tr="Tam zamanlı rollere, araştırma iş birliklerine ve heyecan verici yapay zeka mühendisliği zorluklarına açığım. Şu anda Türkiye'deyim, yer değiştirmeye (relocation) açığım.">
       Open to full-time roles, research collaborations, and exciting AI engineering challenges. Currently based in Turkey, open to relocation.
     </p>
     <div class="contact-links">
-      <a href="mailto:hmetecelik33@gmail.com" class="c-link">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        hmetecelik33@gmail.com
-      </a>
-      <a href="https://linkedin.com/in/hikmet-mete-celik" target="_blank" class="c-link">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
-        LinkedIn
-      </a>
-      <a href="https://github.com/HMeteCelik" target="_blank" class="c-link">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-        GitHub
-      </a>
-      <a href="tel:+905349237805" class="c-link">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.28h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6.14 6.14l.83-.83a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-        +90 534 923 7805
-      </a>
+      <a href="mailto:hmetecelik33@gmail.com" class="c-link">hmetecelik33@gmail.com</a>
+      <a href="https://linkedin.com/in/hikmet-mete-celik" target="_blank" class="c-link">LinkedIn</a>
+      <a href="https://github.com/HMeteCelik" target="_blank" class="c-link">GitHub</a>
+      <a href="tel:+905349237805" class="c-link">+90 534 923 7805</a>
     </div>
   </div>
 </section>
@@ -966,109 +945,68 @@ footer {
 </footer>
 
 <script>
-// ── Animated canvas background: floating geometric shapes ──
+// Language Switcher
+function switchLang(lang) {
+  const elements = document.querySelectorAll('[data-en]');
+  elements.forEach(el => {
+    el.innerHTML = el.getAttribute(`data-${lang}`);
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick*="${lang}"]`).classList.add('active');
+  document.documentElement.lang = lang;
+}
+
+// Canvas
 const canvas = document.getElementById('bgCanvas');
 const ctx = canvas.getContext('2d');
-
-function resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resize();
-window.addEventListener('resize', resize);
-
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
 const shapes = [];
-const COUNT = 18;
-
-function randBetween(a, b) { return a + Math.random() * (b - a); }
-
 const COLORS = ['rgba(245,166,35,', 'rgba(255,107,53,', 'rgba(0,212,170,'];
-
-for (let i = 0; i < COUNT; i++) {
-  const type = ['circle','rect','triangle','cross'][Math.floor(Math.random()*4)];
+for (let i = 0; i < 18; i++) {
   shapes.push({
-    type,
-    x: Math.random() * window.innerWidth,
-    y: Math.random() * window.innerHeight,
-    size: randBetween(20, 90),
-    vx: randBetween(-0.18, 0.18),
-    vy: randBetween(-0.12, 0.12),
-    rot: Math.random() * Math.PI * 2,
-    vrot: randBetween(-0.003, 0.003),
-    color: COLORS[Math.floor(Math.random() * COLORS.length)],
-    alpha: randBetween(0.04, 0.14),
+    type: ['circle','rect','triangle','cross'][Math.floor(Math.random()*4)],
+    x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight,
+    size: 20+Math.random()*70, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3,
+    rot: Math.random()*Math.PI*2, vrot: (Math.random()-0.5)*0.006,
+    color: COLORS[Math.floor(Math.random()*COLORS.length)], alpha: 0.04+Math.random()*0.1
   });
 }
-
 function drawShape(s) {
-  ctx.save();
-  ctx.translate(s.x, s.y);
-  ctx.rotate(s.rot);
-  ctx.strokeStyle = s.color + s.alpha + ')';
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-
-  if (s.type === 'circle') {
-    ctx.arc(0, 0, s.size, 0, Math.PI * 2);
-  } else if (s.type === 'rect') {
-    ctx.rect(-s.size/2, -s.size/2, s.size, s.size);
-  } else if (s.type === 'triangle') {
-    ctx.moveTo(0, -s.size);
-    ctx.lineTo(s.size * 0.866, s.size * 0.5);
-    ctx.lineTo(-s.size * 0.866, s.size * 0.5);
-    ctx.closePath();
-  } else if (s.type === 'cross') {
-    ctx.moveTo(-s.size/2, 0); ctx.lineTo(s.size/2, 0);
-    ctx.moveTo(0, -s.size/2); ctx.lineTo(0, s.size/2);
-  }
-
-  ctx.stroke();
-  ctx.restore();
+  ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(s.rot);
+  ctx.strokeStyle = s.color + s.alpha + ')'; ctx.lineWidth = 1; ctx.beginPath();
+  if (s.type === 'circle') ctx.arc(0, 0, s.size, 0, Math.PI * 2);
+  else if (s.type === 'rect') ctx.rect(-s.size/2, -s.size/2, s.size, s.size);
+  else if (s.type === 'triangle') { ctx.moveTo(0,-s.size); ctx.lineTo(s.size*0.86,s.size*0.5); ctx.lineTo(-s.size*0.86,s.size*0.5); ctx.closePath(); }
+  else if (s.type === 'cross') { ctx.moveTo(-s.size/2,0); ctx.lineTo(s.size/2,0); ctx.moveTo(0,-s.size/2); ctx.lineTo(0,s.size/2); }
+  ctx.stroke(); ctx.restore();
 }
-
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for (const s of shapes) {
-    s.x += s.vx;
-    s.y += s.vy;
-    s.rot += s.vrot;
-    if (s.x < -120) s.x = canvas.width + 120;
-    if (s.x > canvas.width + 120) s.x = -120;
-    if (s.y < -120) s.y = canvas.height + 120;
-    if (s.y > canvas.height + 120) s.y = -120;
+  shapes.forEach(s => {
+    s.x += s.vx; s.y += s.vy; s.rot += s.vrot;
+    if (s.x < -100) s.x = canvas.width + 100; if (s.x > canvas.width + 100) s.x = -100;
+    if (s.y < -100) s.y = canvas.height + 100; if (s.y > canvas.height + 100) s.y = -100;
     drawShape(s);
-  }
+  });
   requestAnimationFrame(animate);
 }
 animate();
 
-// ── Scroll reveal ──
+// Reveal
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
       e.target.classList.add('on');
       e.target.querySelectorAll('.sk-bar').forEach(b => b.style.width = b.dataset.w + '%');
       e.target.querySelectorAll('.lang-fill').forEach(b => b.style.width = b.dataset.w + '%');
-      obs.unobserve(e.target);
     }
   });
 }, { threshold: 0.1 });
-
 document.querySelectorAll('.reveal, .tl-row, .proj-card, .edu-card').forEach((el, i) => {
-  el.style.transitionDelay = (i * 0.07) + 's';
+  el.style.transitionDelay = (i * 0.05) + 's';
   obs.observe(el);
 });
-
-// Also trigger lang/skill bars when skills section enters view
-const skillObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.querySelectorAll('.sk-bar').forEach(b => b.style.width = b.dataset.w + '%');
-      e.target.querySelectorAll('.lang-fill').forEach(b => b.style.width = b.dataset.w + '%');
-    }
-  });
-}, { threshold: 0.1 });
-document.querySelectorAll('#skills').forEach(el => skillObs.observe(el));
 </script>
 </body>
 </html>
